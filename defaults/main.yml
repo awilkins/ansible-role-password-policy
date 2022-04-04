@@ -1,6 +1,7 @@
 ---
 # defaults file for password_policy
 password_expiration_file: /etc/login.defs
+password_quality_file: /etc/security/pwquality.conf
 password_history_file: ''
 password_complexity_file: ''
 
@@ -18,3 +19,7 @@ remember: 12
 PASS_MAX_DAYS: 60
 PASS_MIN_DAYS: 0
 PASS_WARN_AGE: 7
+
+lock_after_failed_logins: 10
+lock_time_seconds: 300
+lock_time_root_seconds: 600

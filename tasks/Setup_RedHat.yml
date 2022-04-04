@@ -56,6 +56,38 @@
     - { search: 'PASS_MIN_DAYS', replace: 'PASS_MIN_DAYS  {{ PASS_MIN_DAYS }}' }
     - { search: 'PASS_WARN_AGE', replace: 'PASS_WARN_AGE  {{ PASS_WARN_AGE }}' }
 
+- name: Enforce Account Locking
+  lineinfile:
+    backup: yes
+    state: present
+    dest: /etc/security/faillock.conf
+    regexp: '^(# )?{{ item.search }}'
+    line: '{{ item.replace }}'
+  with_items:
+    - { search: 'deny', replace: 'deny = {{ lock_after_failed_logins }}' }
+    - { search: 'unlock_time', replace: 'unlock_time = {{ lock_time_seconds }}' }
+    - { search: 'root_unlock_time', replace: 'root_unlock_time = {{ lock_time_root_seconds }}' }
+    - { search: 'even_deny_root', replace: 'even_deny_root' }
+
+- name: Enable SSSD fail lock
+  command: /usr/bin/authselect
+    argv:
+      - select
+      - sssd
+      - with-failllock
+      - with-silent-lastlog
+
+- name: Enforce password quality params
+  lineinfile:
+    backup: yes
+    state: present
+    dest: '{{ password_quality_file }}'
+    regexp: '^(# )?{{ item.search }}'
+    line: '{{ item.replace }}'
+  with_items:
+    - { search: 'retry', replace: 'retry = {{ retry }}' }
+    - { search: 'enforce_for_root', replace: 'enforce_for_root' }
+
 - name: Enforce Password History
   pamd:
     name: 'system-auth'

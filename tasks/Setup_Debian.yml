@@ -20,6 +20,20 @@
      - 'ocredit={{ ocredit }}'
     state: args_present
 
+- name: Enforce Account Locking
+  pamd:
+    name: 'common-auth'
+    type: auth
+    control: required
+    module_path: pam_tally2.so
+    module_arguments:
+      - 'onerr=fail'
+      - 'deny={{ lock_after_failed_logins }}'
+      - 'unlock_time={{ lock_time_seconds }}'
+      - 'audit'
+      - 'even_deny_root'
+      - 'root_unlock_time={{ lock_time_root_seconds }}'
+
 - name: Enforce Password Expiration
   lineinfile:
      backup: yes
@@ -32,6 +46,16 @@
       - { search: 'PASS_MIN_DAYS', replace: 'PASS_MIN_DAYS  {{ PASS_MIN_DAYS }}' }
       - { search: 'PASS_WARN_AGE', replace: 'PASS_WARN_AGE  {{ PASS_WARN_AGE }}' }
 
+- name: Enforce password quality params
+  lineinfile:
+    backup: yes
+    state: present
+    dest: '{{ password_quality_file }}'
+    regexp: '^(# )?{{ item.search }}'
+    line: '{{ item.replace }}'
+  with_items:
+    - { search: 'retry', replace: 'retry = {{ retry }}' }
+    - { search: 'enforce_for_root', replace: 'enforce_for_root' }
 
 - name: Enforce Password History
   pamd:
