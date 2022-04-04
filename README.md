@@ -25,7 +25,6 @@ remember: 12
 # password expiration
 PASS_MAX_DAYS: 60
 PASS_MIN_DAYS: 0
-PASS_MIN_LEN: 8
 PASS_WARN_AGE: 7
 
 ## Dependencies

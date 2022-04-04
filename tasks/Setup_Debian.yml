@@ -30,7 +30,6 @@
   with_items:
       - { search: 'PASS_MAX_DAYS', replace: 'PASS_MAX_DAYS  {{ PASS_MAX_DAYS }}' }
       - { search: 'PASS_MIN_DAYS', replace: 'PASS_MIN_DAYS  {{ PASS_MIN_DAYS }}' }
-      - { search: 'PASS_MIN_LEN', replace: 'PASS_MIN_LEN  {{ PASS_MIN_LEN }}' }
       - { search: 'PASS_WARN_AGE', replace: 'PASS_WARN_AGE  {{ PASS_WARN_AGE }}' }
 
 
