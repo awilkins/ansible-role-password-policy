@@ -75,7 +75,7 @@
       - /usr/bin/authselect
       - select
       - sssd
-      - with-failllock
+      - with-faillock
       - with-silent-lastlog
 
 - name: Apply SSSD fail lock
