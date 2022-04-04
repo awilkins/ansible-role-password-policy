@@ -20,6 +20,7 @@ PASS_MAX_DAYS: 60
 PASS_MIN_DAYS: 0
 PASS_WARN_AGE: 7
 
+retry: 1
 lock_after_failed_logins: 10
 lock_time_seconds: 300
 lock_time_root_seconds: 600
