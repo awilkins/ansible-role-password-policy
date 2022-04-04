@@ -70,12 +70,20 @@
     - { search: 'even_deny_root', replace: 'even_deny_root' }
 
 - name: Enable SSSD fail lock
-  command: /usr/bin/authselect
+  command:
     argv:
+      - /usr/bin/authselect
       - select
       - sssd
       - with-failllock
       - with-silent-lastlog
+
+- name: Apply SSSD fail lock
+  command:
+    argv:
+      - /usr/bin/authselect
+      - apply-changes
+
 
 - name: Enforce password quality params
   lineinfile:
